@@ -76,6 +76,7 @@ install_files(){
 
   adb install -g RetroArch.apk
 
+  echo "Installed RetroArch"
   adb install -g ppsspp.apk
 
   adb install -g daijishou.apk
