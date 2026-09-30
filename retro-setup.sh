@@ -2,6 +2,7 @@
 
 BLUE='\033[0;34m'
 NC='\033[0m'
+GREEN='\033[1;32m'
 BOLD=$(tput bold)
 NORMAL=$(tput sgr0)
 
@@ -18,6 +19,9 @@ echo "
                                                                   - CrYsTAxiT
 "
 
+
+apks="apks" && mkdir -p "$apks"
+counter=1
 #Status check function
 check_adb_device(){
     adb get-state
@@ -62,13 +66,13 @@ enable_connectivity(){
 }
 
 get_files(){
-    curl -sfL -o RetroArch.apk https://buildbot.libretro.com/stable/1.22.2/android/RetroArch.apk
+    curl -sfL -o "${apks}\RetroArch.apk" https://buildbot.libretro.com/stable/1.22.2/android/RetroArch.apk
     
-    curl -sfL -o ppsspp.apk https://www.ppsspp.org/files/1_20_4/ppsspp.apk
+    curl -sfL -o "${apks}\ppsspp.apk" https://www.ppsspp.org/files/1_20_4/ppsspp.apk
     
-    curl -sfL -o daijishou.apk https://github.com/TapiocaFox/Daijishou/releases/download/v1.5.0/416.apk
+    curl -sfL -o "${apks}\daijishou.apk" https://github.com/TapiocaFox/Daijishou/releases/download/v1.5.0/416.apk
     
-    echo "Downloading apks completed..."
+    echo -e "${GREEN} Downloading apks completed..."
     
     sleep 5
 }
@@ -85,7 +89,7 @@ install_files(){
     adb install -g daijishou.apk
     echo "Installed Daijishou"
     sleep 2
-    echo "Installation completed..."
+    echo -e "${GREEN} Installation completed..."
     
 }
 
@@ -127,6 +131,22 @@ main_menu(){
             6)
             enable_connectivity ;;
             7)
+              while true; do
+                check_adb_device
+                factory_reset
+                remove_bloatware
+                get_files
+                install_files
+                enable_connectivity
+
+                ((counter++))
+
+                if [ $counter -gt 7 ]; then
+                  break
+                fi
+              done
+
+              echo -e "${GREEN} Installation completed!!"
             ;;
             8)
             ;;
