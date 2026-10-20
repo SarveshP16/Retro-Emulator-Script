@@ -1,6 +1,12 @@
-## Retro Emulator
+<p align="center">
+  <img src="assets/icon.svg" alt="" width="128" height="128">
+</p>
 
-Bash script to turn your old Android phone into a Retro Gaming Emulator.
+<h2 align="center">Retro Emulator</h2>
+
+<p align="center">
+  Bash script to turn your old Android phone into a Retro Gaming Emulator.
+</p>
 
 Everything runs over ADB from your computer — a menu walks you through wiping
 the phone, stripping out the preinstalled apps, installing the emulators and
@@ -27,6 +33,10 @@ cd Retro-Emulator-Script
 chmod +x retro-setup.sh
 ./retro-setup.sh
 ```
+
+<p align="center">
+  <img src="assets/terminal.svg" alt="The retro-setup.sh menu, showing options 0 to 8" width="683">
+</p>
 
 Pick an option from the menu:
 
@@ -81,3 +91,11 @@ Bluetooth back on so you can still download content and pair a controller.
 `fastboot -w` and needs an unlocked bootloader. It asks for confirmation twice
 and can be skipped if you only want the rest of the setup. Back up anything you
 care about first.
+
+### License
+
+[MIT](LICENSE) — © 2026 Sarvesh Pandit.
+
+This covers the script and its assets only. RetroArch, PPSSPP and Daijishou are
+downloaded from their official sources at runtime and keep their own licenses;
+nothing is redistributed here.

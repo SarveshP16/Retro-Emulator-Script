@@ -1,0 +1,84 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512" role="img" aria-label="Retro Emulator">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#1f2a3a"/>
+      <stop offset="1" stop-color="#0b0e14"/>
+    </linearGradient>
+    <linearGradient id="body" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#e6edf3"/>
+      <stop offset="1" stop-color="#aeb9c4"/>
+    </linearGradient>
+    <linearGradient id="glass" x1="0" y1="0" x2="0.6" y2="1">
+      <stop offset="0" stop-color="#ffffff" stop-opacity="0.18"/>
+      <stop offset="0.55" stop-color="#ffffff" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+
+  <!-- app-icon plate -->
+  <rect width="512" height="512" rx="114" fill="url(#bg)"/>
+  <rect x="3" y="3" width="506" height="506" rx="111" fill="none" stroke="#58a6ff" stroke-opacity="0.22" stroke-width="6"/>
+
+  <!-- phone body -->
+  <rect x="140" y="56" width="232" height="400" rx="34" fill="url(#body)"/>
+  <rect x="140" y="56" width="232" height="400" rx="34" fill="none" stroke="#5b6672" stroke-width="5"/>
+
+  <!-- earpiece -->
+  <rect x="236" y="76" width="40" height="7" rx="3.5" fill="#7d8894"/>
+
+  <!-- screen -->
+  <rect x="166" y="96" width="180" height="152" rx="12" fill="#0d1117"/>
+  <g fill="#3fb950">
+      <rect x="226" y="112" width="15" height="15"/>
+      <rect x="241" y="112" width="15" height="15"/>
+      <rect x="256" y="112" width="15" height="15"/>
+      <rect x="271" y="112" width="15" height="15"/>
+      <rect x="211" y="127" width="15" height="15"/>
+      <rect x="226" y="127" width="15" height="15"/>
+      <rect x="241" y="127" width="15" height="15"/>
+      <rect x="256" y="127" width="15" height="15"/>
+      <rect x="271" y="127" width="15" height="15"/>
+      <rect x="286" y="127" width="15" height="15"/>
+      <rect x="196" y="142" width="15" height="15"/>
+      <rect x="211" y="142" width="15" height="15"/>
+      <rect x="241" y="142" width="15" height="15"/>
+      <rect x="256" y="142" width="15" height="15"/>
+      <rect x="286" y="142" width="15" height="15"/>
+      <rect x="301" y="142" width="15" height="15"/>
+      <rect x="196" y="157" width="15" height="15"/>
+      <rect x="211" y="157" width="15" height="15"/>
+      <rect x="226" y="157" width="15" height="15"/>
+      <rect x="241" y="157" width="15" height="15"/>
+      <rect x="256" y="157" width="15" height="15"/>
+      <rect x="271" y="157" width="15" height="15"/>
+      <rect x="286" y="157" width="15" height="15"/>
+      <rect x="301" y="157" width="15" height="15"/>
+      <rect x="226" y="172" width="15" height="15"/>
+      <rect x="271" y="172" width="15" height="15"/>
+      <rect x="211" y="187" width="15" height="15"/>
+      <rect x="241" y="187" width="15" height="15"/>
+      <rect x="256" y="187" width="15" height="15"/>
+      <rect x="286" y="187" width="15" height="15"/>
+      <rect x="196" y="202" width="15" height="15"/>
+      <rect x="226" y="202" width="15" height="15"/>
+      <rect x="301" y="202" width="15" height="15"/>
+      <rect x="226" y="217" width="15" height="15"/>
+      <rect x="271" y="217" width="15" height="15"/>
+  </g>
+
+  <!-- d-pad -->
+  <path d="M184 316h26v-26a8 8 0 0 1 8-8h20a8 8 0 0 1 8 8v26h26a8 8 0 0 1 8 8v20a8 8 0 0 1-8 8h-26v26a8 8 0 0 1-8 8h-20a8 8 0 0 1-8-8v-26h-26a8 8 0 0 1-8-8v-20a8 8 0 0 1 8-8z"
+        fill="#2b3340"/>
+
+  <!-- action buttons -->
+  <circle cx="326" cy="300" r="21" fill="#58a6ff"/>
+  <circle cx="326" cy="300" r="21" fill="none" stroke="#1f3f66" stroke-width="3"/>
+  <circle cx="326" cy="358" r="21" fill="#f85149"/>
+  <circle cx="326" cy="358" r="21" fill="none" stroke="#6b1f1c" stroke-width="3"/>
+
+  <!-- start / select -->
+  <rect x="214" y="412" width="36" height="11" rx="5.5" fill="#7d8894" transform="rotate(-20 232 417)"/>
+  <rect x="262" y="412" width="36" height="11" rx="5.5" fill="#7d8894" transform="rotate(-20 280 417)"/>
+
+  <!-- glass sheen -->
+  <rect x="140" y="56" width="232" height="400" rx="34" fill="url(#glass)"/>
+</svg>

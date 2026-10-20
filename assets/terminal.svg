@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="683" height="544" viewBox="0 0 683 544" font-family="ui-monospace, SFMono-Regular, &#34;SF Mono&#34;, Menlo, Consolas, &#34;DejaVu Sans Mono&#34;, monospace" font-size="14" role="img" aria-label="retro-setup.sh">
+<rect width="683" height="544" rx="10" fill="#0d1117" stroke="#30363d"/>
+<path d="M0 10a10 10 0 0 1 10-10h663a10 10 0 0 1 10 10v22H0z" fill="#161b22"/>
+<line x1="0" y1="32" x2="683" y2="32" stroke="#30363d"/>
+<circle cx="20" cy="16" r="5" fill="#f85149"/>
+<circle cx="38" cy="16" r="5" fill="#d29922"/>
+<circle cx="56" cy="16" r="5" fill="#3fb950"/>
+<text x="341.5" y="21" fill="#8b949e" font-size="12" text-anchor="middle">retro-setup.sh</text>
+<text y="46" fill="#c9d1d9" xml:space="preserve"><tspan x="18.0" fill="#3fb950">~/Retro-Emulator-Script</tspan><tspan x="211.3"> $ ./retro-setup.sh</tspan></text>
+<text y="66" fill="#c9d1d9" xml:space="preserve"><tspan x="18.0">  _____           _                       _____          _</tspan></text>
+<text y="86" fill="#c9d1d9" xml:space="preserve"><tspan x="18.0"> |  __ \         | |                     / ____|        | |</tspan></text>
+<text y="106" fill="#c9d1d9" xml:space="preserve"><tspan x="18.0"> | |__) |   ___  | |_   _ __    ___     | (___     ___  | |_   _   _   _ __</tspan></text>
+<text y="126" fill="#c9d1d9" xml:space="preserve"><tspan x="18.0"> |  _  /   / _ \ | __| | &#x27;__|  / _ \     \___ \   / _ \ | __| | | | | | &#x27;_ \</tspan></text>
+<text y="146" fill="#c9d1d9" xml:space="preserve"><tspan x="18.0"> | | \ \  |  __/ | |_  | |    | (_) |    ____) | |  __/ | |_  | |_| | | |_) |</tspan></text>
+<text y="166" fill="#c9d1d9" xml:space="preserve"><tspan x="18.0"> |_|  \_\  \___|  \__| |_|     \___/    |_____/   \___|  \__|  \__,_| | .__/</tspan></text>
+<text y="186" fill="#c9d1d9" xml:space="preserve"><tspan x="18.0">                                                                      | |</tspan></text>
+<text y="206" fill="#c9d1d9" xml:space="preserve"><tspan x="18.0">                                                                      |_|</tspan></text>
+<text y="246" fill="#c9d1d9" xml:space="preserve"><tspan x="18.0">                                                                  - CrYsTAxiT</tspan></text>
+<text y="286" fill="#c9d1d9" xml:space="preserve"><tspan x="18.0" font-weight="700">Select an option:</tspan><tspan x="160.9"> </tspan></text>
+<text y="306" fill="#c9d1d9" xml:space="preserve"><tspan x="18.0" fill="#58a6ff">1)</tspan><tspan x="34.8"> Check device connection</tspan></text>
+<text y="326" fill="#c9d1d9" xml:space="preserve"><tspan x="18.0" fill="#58a6ff">2)</tspan><tspan x="34.8"> Factory reset device</tspan></text>
+<text y="346" fill="#c9d1d9" xml:space="preserve"><tspan x="18.0" fill="#58a6ff">3)</tspan><tspan x="34.8"> Remove bloatware / preinstalled apps</tspan></text>
+<text y="366" fill="#c9d1d9" xml:space="preserve"><tspan x="18.0" fill="#58a6ff">4)</tspan><tspan x="34.8"> Download retro gaming apps</tspan></text>
+<text y="386" fill="#c9d1d9" xml:space="preserve"><tspan x="18.0" fill="#58a6ff">5)</tspan><tspan x="34.8"> Install retro gaming apps</tspan></text>
+<text y="406" fill="#c9d1d9" xml:space="preserve"><tspan x="18.0" fill="#58a6ff">6)</tspan><tspan x="34.8"> Enable airplane mode + WiFi &amp; Bluetooth</tspan></text>
+<text y="426" fill="#c9d1d9" xml:space="preserve"><tspan x="18.0" fill="#58a6ff">7)</tspan><tspan x="34.8"> Run full setup (1 to 6 in order)</tspan></text>
+<text y="446" fill="#c9d1d9" xml:space="preserve"><tspan x="18.0" fill="#58a6ff">8)</tspan><tspan x="34.8"> Show status</tspan></text>
+<text y="466" fill="#c9d1d9" xml:space="preserve"><tspan x="18.0" fill="#58a6ff">0)</tspan><tspan x="34.8"> Exit</tspan></text>
+<rect x="135.6" y="495" width="8.4" height="16" fill="#c9d1d9" opacity="0.8"/>
+<text y="506" fill="#c9d1d9" xml:space="preserve"><tspan x="18.0" font-weight="700">Choice [0-8]:</tspan><tspan x="127.2"> </tspan></text>
+</svg>
