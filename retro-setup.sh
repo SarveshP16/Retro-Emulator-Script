@@ -47,6 +47,14 @@ PKG_RETROARCH_64="com.retroarch.aarch64"
 PKG_PPSSPP="org.ppsspp.ppsspp"
 PKG_DAIJISHOU="com.magneticchen.daijishou"
 
+# Where games and BIOS files are read from on this computer, and where they
+# land on the phone. Override the sources per run, e.g.
+#   ROMS_DIR=/media/roms BIOS_DIR=~/bios ./retro-setup.sh
+roms_src="${ROMS_DIR:-games}"
+bios_src="${BIOS_DIR:-bios}"
+ROMS_DEST="/sdcard/Roms"
+BIOS_DEST="/sdcard/RetroArch/system"
+
 # Bloatware removed with "pm uninstall --user 0": the package is dropped for
 # the current user but its APK stays on /system, so a factory reset or
 # "cmd package install-existing <pkg>" brings it back.
@@ -358,6 +366,126 @@ install_files(){
     echo -e "${GREEN}Installation completed: $installed app(s)${NC}"
 }
 
+#True when a folder exists and holds at least one file
+has_files(){
+    [ -d "$1" ] || return 1
+    [ -n "$(find "$1" -type f -print -quit 2>/dev/null)" ]
+}
+
+#Size of a folder in KB
+dir_size_kb(){
+    du -sk "$1" 2>/dev/null | awk '{print $1}'
+}
+
+#Format a KB figure for humans
+human_kb(){
+    local kb="$1"
+
+    if [ "$kb" -ge 1048576 ]; then
+        awk -v k="$kb" 'BEGIN{printf "%.1f GB", k / 1048576}'
+    elif [ "$kb" -ge 1024 ]; then
+        awk -v k="$kb" 'BEGIN{printf "%.0f MB", k / 1024}'
+    else
+        echo "${kb} KB"
+    fi
+}
+
+#Free space on the device's shared storage, in KB
+device_free_kb(){
+    adb shell df -k /sdcard 2>/dev/null | tr -d '\r' | awk 'NR==2 {print $4}'
+}
+
+#Copy every entry of a local folder into a destination on the device.
+#Sets PUSH_OK / PUSH_FAIL; returns 2 when there was nothing to copy.
+push_tree(){
+    local src="$1" dest="$2" label="$3"
+    local entry name
+
+    PUSH_OK=0
+    PUSH_FAIL=0
+
+    has_files "$src" || return 2
+
+    info "Copying $label to ${dest}..."
+    adb shell mkdir -p "$dest" >/dev/null 2>&1
+
+    for entry in "$src"/*; do
+        [ -e "$entry" ] || continue
+        name=$(basename "$entry")
+
+        if adb push "$entry" "$dest/"; then
+            ok "Pushed $name"
+            PUSH_OK=$((PUSH_OK + 1))
+        else
+            err "Failed to push $name"
+            PUSH_FAIL=$((PUSH_FAIL + 1))
+        fi
+    done
+}
+
+#Install games and BIOS files
+install_games(){
+    local roms_kb=0 bios_kb=0 total_kb=0
+
+    # Checked before the device, so the folder layout can be explained while
+    # the phone is still unplugged.
+    has_files "$roms_src" && roms_kb=$(dir_size_kb "$roms_src")
+    has_files "$bios_src" && bios_kb=$(dir_size_kb "$bios_src")
+    total_kb=$((roms_kb + bios_kb))
+
+    if [ "$total_kb" -eq 0 ]; then
+        mkdir -p "$roms_src" "$bios_src"
+        warn "Nothing to install yet."
+        echo "    Games: put them in ./${roms_src}/<platform>/  (one folder per system)"
+        echo "    BIOS:  put them in ./${bios_src}/"
+        echo "    Then run this option again."
+        return 0
+    fi
+
+    check_adb_device || return 1
+
+    echo
+    [ "$roms_kb" -gt 0 ] && printf '    %-6s %9s  ->  %s\n' "Games" "$(human_kb "$roms_kb")" "$ROMS_DEST"
+    [ "$bios_kb" -gt 0 ] && printf '    %-6s %9s  ->  %s\n' "BIOS"  "$(human_kb "$bios_kb")" "$BIOS_DEST"
+
+    local free_kb
+    free_kb=$(device_free_kb)
+    if [[ "$free_kb" =~ ^[0-9]+$ ]]; then
+        echo "    Free on device: $(human_kb "$free_kb")"
+
+        if [ "$total_kb" -gt "$free_kb" ]; then
+            err "Not enough space on the device — need $(human_kb "$total_kb")."
+            return 1
+        fi
+    fi
+
+    echo
+    read -rp "Copy these to the device? (y/N): " confirm
+    case "$confirm" in
+        [yY]|[yY][eE][sS]) ;;
+        *) info "Copy cancelled"; return 0 ;;
+    esac
+
+    local copied=0 failed=0
+
+    push_tree "$roms_src" "$ROMS_DEST" "games"
+    copied=$((copied + PUSH_OK))
+    failed=$((failed + PUSH_FAIL))
+
+    push_tree "$bios_src" "$BIOS_DEST" "BIOS files"
+    copied=$((copied + PUSH_OK))
+    failed=$((failed + PUSH_FAIL))
+
+    echo
+    if [ "$failed" -gt 0 ]; then
+        err "Copy finished with $failed failure(s), $copied item(s) copied"
+        return 1
+    fi
+
+    echo -e "${GREEN}Copied $copied item(s) to the device${NC}"
+    info "In Daijishou, add ${ROMS_DEST}/<platform> as a library path to see them."
+}
+
 enable_connectivity(){
     check_adb_device || return 1
 
@@ -431,6 +559,20 @@ show_status(){
     pkg_status "Daijishou" "$PKG_DAIJISHOU"
 
     echo
+    echo "${BOLD}=== Games ===${NORMAL}"
+    local rom_count bios_count
+    rom_count=$(adb shell "find $ROMS_DEST -type f 2>/dev/null | wc -l" 2>/dev/null | tr -d '\r ')
+    bios_count=$(adb shell "find $BIOS_DEST -type f 2>/dev/null | wc -l" 2>/dev/null | tr -d '\r ')
+    if [ "${rom_count:-0}" -gt 0 ] 2>/dev/null; then
+        ok "$rom_count file(s) in $ROMS_DEST"
+    else
+        warn "No games on the device yet (option 6)"
+    fi
+    if [ "${bios_count:-0}" -gt 0 ] 2>/dev/null; then
+        ok "$bios_count BIOS file(s) in $BIOS_DEST"
+    fi
+
+    echo
     echo "${BOLD}=== Connectivity ===${NORMAL}"
     local airplane wifi bt
     airplane=$(adb shell settings get global airplane_mode_on 2>/dev/null | tr -d '\r')
@@ -458,7 +600,7 @@ show_status(){
 full_setup(){
     local step
 
-    for step in check_adb_device factory_reset remove_bloatware get_files install_files enable_connectivity; do
+    for step in check_adb_device factory_reset remove_bloatware get_files install_files install_games enable_connectivity; do
         echo
         echo -e "${BOLD}--- ${step//_/ } ---${NORMAL}"
 
@@ -482,14 +624,15 @@ main_menu(){
         echo -e "${BLUE}3)${NC} Remove bloatware / preinstalled apps"
         echo -e "${BLUE}4)${NC} Download retro gaming apps"
         echo -e "${BLUE}5)${NC} Install retro gaming apps"
-        echo -e "${BLUE}6)${NC} Enable airplane mode + WiFi & Bluetooth"
-        echo -e "${BLUE}7)${NC} Run full setup (1 to 6 in order)"
-        echo -e "${BLUE}8)${NC} Show status"
+        echo -e "${BLUE}6)${NC} Install games / BIOS files"
+        echo -e "${BLUE}7)${NC} Enable airplane mode + WiFi & Bluetooth"
+        echo -e "${BLUE}8)${NC} Run full setup (1 to 7 in order)"
+        echo -e "${BLUE}9)${NC} Show status"
         echo -e "${BLUE}0)${NC} Exit"
 
         echo -e "\n"
 
-        read -erp "${BOLD}Choice [0-8]:${NORMAL} " option || exit 0
+        read -erp "${BOLD}Choice [0-9]:${NORMAL} " option || exit 0
 
         #Menu functions
         case "$option" in
@@ -509,12 +652,15 @@ main_menu(){
             install_files ;;
 
             6)
-            enable_connectivity ;;
+            install_games ;;
 
             7)
-            full_setup ;;
+            enable_connectivity ;;
 
             8)
+            full_setup ;;
+
+            9)
             show_status ;;
 
             0)

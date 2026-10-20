@@ -47,9 +47,10 @@ Pick an option from the menu:
 | 3 | Remove bloatware | Uninstalls known preinstalled apps for the current user |
 | 4 | Download retro gaming apps | Fetches the APKs into `./apks` |
 | 5 | Install retro gaming apps | Installs every APK in `./apks` with all permissions granted |
-| 6 | Enable airplane mode + WiFi & Bluetooth | Kills mobile data, keeps Wi-Fi and Bluetooth |
-| 7 | Run full setup | Runs 1 to 6 in order, stopping at the first failure |
-| 8 | Show status | Reports downloaded APKs, device info, installed emulators, radio state and leftover bloatware |
+| 6 | Install games / BIOS files | Copies `games/` and `bios/` onto the phone |
+| 7 | Enable airplane mode + WiFi & Bluetooth | Kills mobile data, keeps Wi-Fi and Bluetooth |
+| 8 | Run full setup | Runs 1 to 7 in order, stopping at the first failure |
+| 9 | Show status | Reports downloaded APKs, device info, installed emulators, games on device, radio state and leftover bloatware |
 | 0 | Exit | |
 
 ### Apps installed
@@ -65,7 +66,37 @@ RetroArch comes in a 32-bit and a 64-bit build; the script reads
 device attached it falls back to the 64-bit build. Versions are pinned at the
 top of the script if you want to bump them.
 
-No games or BIOS files are downloaded — bring your own.
+No games or BIOS files are downloaded — bring your own, then use option 6 to
+copy them across.
+
+### Games and BIOS files
+
+Option 6 copies two local folders onto the phone. Create them (option 6 makes
+them for you on first run) and drop your files in:
+
+```
+games/
+  snes/        -> /sdcard/Roms/snes
+  psp/         -> /sdcard/Roms/psp
+  gba/         -> /sdcard/Roms/gba
+bios/          -> /sdcard/RetroArch/system
+```
+
+One folder per system under `games/`; the folder name becomes the platform
+folder on the device. BIOS files go flat in `bios/`, which lands in RetroArch's
+system directory where the cores look for them.
+
+Before copying, the script totals the size and checks it against the free space
+on the phone, then asks to confirm. Afterwards, point Daijishou at
+`/sdcard/Roms/<platform>` as a library path to see your games.
+
+If your collection lives elsewhere, point the script at it for a single run:
+
+```bash
+ROMS_DIR=/media/usb/roms BIOS_DIR=~/bios ./retro-setup.sh
+```
+
+Both folders are in `.gitignore`, so nothing you drop there gets committed.
 
 ### Notes
 
